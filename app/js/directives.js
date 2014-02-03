@@ -47,24 +47,4 @@ angular.module('myApp.directives', []).
 		       element.append(tag);
 		     }
 		   }
-  })
-  	
-    .directive('pass', function(){
-    		return{
-    			restrict:'A',
-    			link:function(scope,element,attrs)
-    			{
-    			 var paswrd = attrs.password;
-    			 var cpaswrd = attrs.cpassword;
-    			 if ((paswrd == cpaswrd)){
-    				 
-    			 }
-    			}
-    	
-    		}
-    })
-    
-    
-    
-    
-    )
+  });
