@@ -34,6 +34,7 @@ angular.module('myApp.controllers', []).
     $scope.addNewUser = function(user){
         usersService.addNewUser(user).then(function(user) {
         	$scope.getUsers();
+        	$location.path('/users');
         });
     }
   })
