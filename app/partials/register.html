@@ -1,3 +1,4 @@
+<form name="myForm">
 <table border="0">
 <tbody>
 
@@ -16,18 +17,25 @@
 <td><input id="username" maxlength="45" ng-model="user.username" type="text" /> </td>
 </tr>
 
-<tr>
-<td><label for="password">Password*:</label></td>
-<td><input id="password" maxlength="45" ng-model="user.password" type="password" /></td>
-</tr>
+
+<div>
+	<tr>
+		<td><label for="password" >Password*:</label></td>
+		<td>
+			<input type="password" id="password" maxlength="45" required name='password' ng-model='password1' />
+		</td>
+	</tr>
+	<tr>
+		<td><label for="password">Confirm Password*:</label></td>
+		<td>
+			<input type="password" ng-model="password2" required password-match="password1" />
+		</td>
+	</tr>
+</div>
+
 
 <tr>
-<td><label for="password">Confirm Password*:</label></td>
-<td><input id="cpassword" maxlength="45" ng-model="user.cpassword" type="password" /></td>
-</tr>
-
-<tr>
-<td align="right"><button ng-click="addNewUser(user)">Register</button></td>
+<td align="right"><button ng-click="addNewUser(user)" ng-disabled='myForm.$valid'>Register</button></td>
 </tr>
 <tr>
 <td align="right"><input ng-model="clear" type="button" value="clear" /></td>
@@ -36,4 +44,6 @@
 <td align="right"><input ng-model="cancel" type="button" value="cancel" /></td>
 </tr>
 
-</tbody></table>
+</tbody>
+</table>
+</form>
