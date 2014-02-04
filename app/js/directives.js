@@ -35,36 +35,20 @@ angular.module('myApp.directives', []).
 		     }
 		   }
   })
-    .directive( 'fbimage', function() {
-	  return {
-		     restrict: 'E',
-		     link:function(scope, element, attrs) {
-		       var fbid = attrs.fbid;
-		       var tag = '';
-		       if ((fbid !== null) && (fbid !== undefined) && (fbid !== '')) {
-		    	   tag = '<img src="http://graph.facebook.com/' + fbid + '/picture?type=large" class="img-responsive"/>'
-		       }
-		       element.append(tag);
-		     }
-		   }
-  })
-  	
-    .directive('pass', function(){
-    		return{
-    			restrict:'A',
-    			link:function(scope,element,attrs)
-    			{
-    			 var paswrd = attrs.password;
-    			 var cpaswrd = attrs.cpassword;
-    			 if ((paswrd == cpaswrd)){
-    				 
-    			 }
-    			}
-    	
-    		}
-    })
-    
-    
-    
-    
-    )
+.directive('sameAs', function() {
+	return {
+		restrict: 'A',
+		require: 'ngModel',
+		link: function(scope, elm, attrs, ctrl) {
+			ctrl.$parsers.unshift(function(viewValue) {
+				if (viewValue === scope[attrs.sameAs]) {
+					ctrl.$setValidity('sameAs', true);
+					return viewValue;
+				} else {
+					ctrl.$setValidity('sameAs', false);
+					return undefined;
+				}
+			})
+		}
+	}
+});
