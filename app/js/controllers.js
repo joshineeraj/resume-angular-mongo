@@ -45,7 +45,7 @@ angular.module('myApp.controllers', []).
 	                    {value:'Female', text:'Female'}];
 	  console.log("In edit controller");
 	  var user = {id: userId};
-	  usersService.editUser(user).then(function(user) {
+	  usersService.fetchUser(user).then(function(user) {
 		  var original = user;
 		  $scope.user = original;
       });
@@ -55,6 +55,21 @@ angular.module('myApp.controllers', []).
 			  $location.path('/users');
 		  });
 	  }
+	  //$scope.getUsers();
+	  }])
+  .controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
+	  //Executes when the controller is created
+	  var userId = $routeParams.userId;
+	  $scope.genders = [{value:'Male', text:'Male'},
+	                    {value:'Female', text:'Female'}];
+	  console.log("In view controller");
+	  var user = {id: userId};
+	  //using editUser because it fetches the data from Server
+	  
+	  usersService.fetchUser(user).then(function(user) {
+		  var original = user;
+		  $scope.user = original;
+      });
 	  //$scope.getUsers();
 	  }])
   .controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
