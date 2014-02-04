@@ -35,6 +35,7 @@ angular.module('myApp.directives', []).
 		     }
 		   }
   })
+
 .directive('sameAs', function() {
 	return {
 		restrict: 'A',
@@ -52,3 +53,4 @@ angular.module('myApp.directives', []).
 		}
 	}
 });
+

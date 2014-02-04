@@ -16,18 +16,31 @@
 <td><input id="username" maxlength="45" ng-model="user.username" type="text" /> </td>
 </tr>
 
-<tr>
-<td><label for="password">Password*:</label></td>
-<td><input id="password" maxlength="45" ng-model="user.password" type="password" /></td>
-</tr>
+
+<div ng-controller='checkCtrl'>
+	<tr>
+	<td><label for="password" >Password*:</label></td>
+	<td>
+		<input type="password" id="password" maxlength="45" required name='password' ng-model='user.password' />
+		<span class='help-inline' ng-show='form.password.$valid'>
+	          <i class='icon-ok'></i>
+	    </span>
+	</td>
+	</tr>
+	
+	<tr>
+	<td><label for="password">Confirm Password*:</label></td>
+	<td><input type='password' id='password_confirmation' required name='password_confirmation' same-as='user.password' ng-model='user.password_confirmation'/>
+	<span class='help-inline' ng-show='form.password_confirmation.$valid'>
+	   	<i class='icon-ok'></i>
+	</span>
+	</td>
+	</tr>
+</div>
+
 
 <tr>
-<td><label for="password">Confirm Password*:</label></td>
-<td><input id="cpassword" maxlength="45" ng-model="user.cpassword" type="password" /></td>
-</tr>
-
-<tr>
-<td align="right"><button ng-click="addNewUser(user)">Register</button></td>
+<td align="right"><button ng-click="addNewUser(user)" ng-disabled='!form.$valid'>Register</button></td>
 </tr>
 <tr>
 <td align="right"><input ng-model="clear" type="button" value="clear" /></td>
