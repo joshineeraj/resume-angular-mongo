@@ -69,8 +69,4 @@ angular.module('myApp.controllers', []).
 		  })
       });
 	  //$scope.getUsers();
-	  }])
-	.controller('checkCtrl', ['$scope', function($scope) {
-	  $scope.user.password;
-	  $scope.user.password_confirmation;
-	}])
+	  }]);
