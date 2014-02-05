@@ -31,7 +31,7 @@ angular.module('myApp.services', []).
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
-        editUser: _fetchUser,
+        fetchUser: _fetchUser,
         removeUser:_removeUser
     };
 });
