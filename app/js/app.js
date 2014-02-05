@@ -18,6 +18,7 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
   $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersCtrl'});
   $routeProvider.when('/user/edit/:userId/', {templateUrl: 'partials/editprofile.html', controller: 'UserEditCtrl'});
+  $routeProvider.when('/user/view/:userId/', {templateUrl: 'partials/viewprofile.html', controller: 'UserViewCtrl'});
   $routeProvider.when('/user/delete/:userId/', {templateUrl: 'partials/users.html', controller: 'UserDeleteCtrl'});
   $routeProvider.when('/thankyou', {templateUrl: 'partials/thankyou.html'});
   $routeProvider.otherwise({redirectTo: '/users'});

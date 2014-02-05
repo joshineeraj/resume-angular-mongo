@@ -18,10 +18,10 @@ angular.module('myApp.services', []).
     	return user;
     	
     }
-    var _editUser = function(user){
+    var _fetchUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
-    	var editUser = Restangular.copy(originalUser);
-    	return editUser;
+    	var fetchUser = Restangular.copy(originalUser);
+    	return fetchUser;
     }
     var _removeUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
@@ -36,7 +36,7 @@ angular.module('myApp.services', []).
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
-        editUser: _editUser,
+        fetchUser: _fetchUser,
         removeUser:_removeUser,
         getResumeDetails:_getResumeDetails
     };
