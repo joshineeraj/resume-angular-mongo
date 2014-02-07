@@ -18,11 +18,13 @@ angular.module('myApp.services', []).
     	return user;
     	
     }
+	
     var _fetchUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
     	var fetchUser = Restangular.copy(originalUser);
     	return fetchUser;
     }
+	
     var _removeUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
     	return originalUser;
