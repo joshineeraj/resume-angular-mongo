@@ -30,11 +30,17 @@ angular.module('myApp.services', []).
     	return originalUser;
     }
 
+    var _getResumeDetails = function(newUser){
+        var originalUser = Restangular.all('users').post(newUser);
+        return originalUser;
+    }
+
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
-        editUser: _fetchUser,
-        removeUser:_removeUser
+        fetchUser: _fetchUser,
+        removeUser:_removeUser,
+        getResumeDetails:_getResumeDetails
     };
 });
 

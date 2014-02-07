@@ -15,6 +15,7 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
   $routeProvider.when('/weather', {templateUrl: 'partials/weather.html', controller: 'WeatherCtrl'});
   $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersCtrl'});
+  $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
   $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersCtrl'});
   $routeProvider.when('/user/edit/:userId/', {templateUrl: 'partials/editprofile.html', controller: 'UserEditCtrl'});
   $routeProvider.when('/user/view/:userId/', {templateUrl: 'partials/viewprofile.html', controller: 'UserViewCtrl'});

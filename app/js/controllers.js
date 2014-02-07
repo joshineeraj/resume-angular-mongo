@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', [])
-	.controller('MyCtrl1', [function() {
+angular.module('myApp.controllers', ['ngUpload']).
+  controller('MyCtrl1', [function() {
 
 	}])
 
@@ -77,16 +77,37 @@ angular.module('myApp.controllers', [])
 		//$scope.getUsers();
 	}])
 	  
-	.controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
-		//Executes when the controller is created
-		console.log("In delete controller");
-		var userId = $routeParams.userId;
-		var user = {id: userId};
-		usersService.removeUser(user).then(function(user) {
-			var original = user;
-			original.remove().then(function() {
-				$location.path('/users');
-			})
-		});
-		//$scope.getUsers();
-	}]);
+  .controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
+	  //Executes when the controller is created
+	  console.log("In delete controller");
+	  var userId = $routeParams.userId;
+	  var user = {id: userId};
+	  usersService.removeUser(user).then(function(user) {
+		  var original = user;
+		  original.remove().then(function() {
+			  $location.path('/users');
+		  })
+      });
+	  //$scope.getUsers();
+	  }])
+.controller('uploadResume', function ($scope, usersService) {
+      $scope.startUploading = function() {
+        console.log('uploading....')
+      };
+      $scope.uploadComplete = function (content) {
+        console.log("In uploadResume controller");
+        if (content) console.log(content);
+          $scope.response = content; // Presumed content is a json string!
+          $scope.response.style = {
+              color: $scope.response.color,
+              "font-weight": "bold"
+          };
+
+          // Clear form (reason for using the 'ng-model' directive on the input elements)
+          $scope.fullname = '';
+          $scope.gender = '';
+          $scope.color = '';
+          // Look for way to clear the input[type=file] element
+        }
+      });
+
