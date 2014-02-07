@@ -34,13 +34,22 @@ angular.module('myApp.services', []).
         var originalUser = Restangular.all('users').post(newUser);
         return originalUser;
     }
-
+	var _chkLogin = function(user){
+    	var userInfo = {email : user.user_email, password : user.user_pass}
+    	var user = Restangular.all('user_login').post(userInfo);
+    	return user;
+    }
+	
+	var _loggedIn = false;
+	
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
         fetchUser: _fetchUser,
         removeUser:_removeUser,
-        getResumeDetails:_getResumeDetails
+        getResumeDetails:_getResumeDetails,
+		chkLogin:_chkLogin,
+        loggedIn:_loggedIn
     };
 });
 

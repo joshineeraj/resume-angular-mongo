@@ -43,7 +43,8 @@ angular.module('myApp.controllers', ['ngUpload']).
 		}
 	})
   
-	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
+	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
+){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
 		$scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
@@ -62,7 +63,8 @@ angular.module('myApp.controllers', ['ngUpload']).
 		//$scope.getUsers();
 	}])
 	  
-	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
+	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
+){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
 		$scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
@@ -77,7 +79,8 @@ angular.module('myApp.controllers', ['ngUpload']).
 		//$scope.getUsers();
 	}])
 	  
-  .controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService){
+  .controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
+){
 	  //Executes when the controller is created
 	  console.log("In delete controller");
 	  var userId = $routeParams.userId;
@@ -109,5 +112,21 @@ angular.module('myApp.controllers', ['ngUpload']).
           $scope.color = '';
           // Look for way to clear the input[type=file] element
         }
-      });
+      })
+	  
+	  
+	.controller('LoginCtrl', function($scope, $location, usersService){
+	$scope.logIn = function(user){
+		usersService.chkLogin(user).then(function(user) {
+			if (user != ""){
+				alert("Welcome");
+				usersService.loggedIn = true;
+				$location.path('/view1');
+			}else{
+				alert("Email or Password is incorrect.");
+				$location.path('/login');
+			}
+		});
+	}
+});
 
