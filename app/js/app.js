@@ -11,8 +11,6 @@ angular.module('myApp', [
   'restangular'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
   $routeProvider.when('/weather', {templateUrl: 'partials/weather.html', controller: 'WeatherCtrl'});
   $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersCtrl'});
   $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
@@ -20,7 +18,6 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/user/edit/:userId/', {templateUrl: 'partials/editprofile.html', controller: 'UserEditCtrl'});
   $routeProvider.when('/user/view/:userId/', {templateUrl: 'partials/viewprofile.html', controller: 'UserViewCtrl'});
   $routeProvider.when('/user/delete/:userId/', {templateUrl: 'partials/users.html', controller: 'UserDeleteCtrl'});
-  $routeProvider.when('/thankyou', {templateUrl: 'partials/thankyou.html'});
   $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginCtrl'});
   $routeProvider.when('/logout', {templateUrl: 'partials/login.html', controller: 'LogoutCtrl'});
   $routeProvider.otherwise({redirectTo: '/users'});

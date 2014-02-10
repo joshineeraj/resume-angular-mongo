@@ -1,4 +1,4 @@
-<form name="myForm">
+<form name="myForm" action='/users'>
 <table border="0">
 <tbody>
 
@@ -33,9 +33,9 @@
 	</tr>
 </div>
 
-
+{{myForm.password-match}}
 <tr>
-<td align="right"><button ng-click="addNewUser(user)" ng-disabled='myForm.$valid'>Register</button></td>
+<td align="right"><button ng-disabled='myForm.password-match'>Register</button></td>
 </tr>
 <tr>
 <td align="right"><input ng-model="clear" type="button" value="clear" /></td>

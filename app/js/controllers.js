@@ -2,29 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', ['ngUpload']).
-  controller('MyCtrl1', [function() {
-
-	}])
-
-	.controller('MyCtrl2', [function() {
-
-	}])
-  
-	.controller("WeatherCtrl", function ($scope, weatherService){
-		//Executes when the controller is created
-		$scope.Weather = {};
-		$scope.selectedCity = 'Cambridge';
-		$scope.getWeather = function(){
-			weatherService.getWeather($scope.selectedCity).then(
-				function (data) {
-					$scope.Weather = data;
-				}
-			);
-		}
-		$scope.getWeather();
-	})
-
+angular.module('myApp.controllers', ['ngUpload'])
 	.controller("UsersCtrl", function ($scope, $location, usersService){
 		//Executes when the controller is created
 		$scope.getUsers = function(){
