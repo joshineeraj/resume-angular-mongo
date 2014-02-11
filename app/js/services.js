@@ -7,10 +7,22 @@
 // In this case it is a simple value service.
 angular.module('myApp.services', []).
   value('version', '0.1')
-  .factory("usersService", function($http, Restangular){
+  .factory("usersService", function($http, Restangular, $q, $timeout){
+    // var _getUsers = function(){
+    // 	var userData = Restangular.all('users').getList();
+    // 	return userData;
+    // }
+
     var _getUsers = function(){
-    	var userData = Restangular.all('users').getList();
-    	return userData;
+        var deferred = $q.defer();
+        Restangular.all('users').getList().then(function (data) {
+                    var user_data = data;
+                    $timeout(function(){
+                        deferred.resolve(user_data);    
+                    }, 1000);
+                    
+                });
+                return deferred.promise;
     }
     
     var _addNewUser = function(newUser){

@@ -12,12 +12,23 @@ angular.module('myApp.controllers', ['ngUpload'])
 				}
 			);
 		}
+
 		$scope.getUsers();
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
 				$scope.getUsers();
 				$location.path('/users');
 			});
+		}
+		$scope.passwordmatch = function(){
+			var check = $scope.password1 == $scope.password2;
+			if(check){
+				console.log("i am true");
+				document.getElementByID("register").disabled = true;
+			}else{
+				console.log("password not matches");
+				document.getElementByID("register").disabled = false;
+			}
 		}
 	})
   

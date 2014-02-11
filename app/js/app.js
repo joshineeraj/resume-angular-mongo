@@ -9,8 +9,7 @@ angular.module('myApp', [
   'myApp.controllers',
   'restangular'
 ]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/weather', {templateUrl: 'partials/weather.html', controller: 'WeatherCtrl'});
+config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvider) {
   $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersCtrl'});
   $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
   $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersCtrl'});
@@ -20,6 +19,7 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginCtrl'});
   $routeProvider.when('/logout', {templateUrl: 'partials/login.html', controller: 'LogoutCtrl'});
   $routeProvider.otherwise({redirectTo: '/users'});
+
 }])
 .config(function(RestangularProvider) {
   RestangularProvider.setBaseUrl('http://localhost:3000/');

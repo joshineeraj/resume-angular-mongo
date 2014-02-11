@@ -4,17 +4,17 @@
 
 <tr>
 <td><label for="name">Your Name*: </label> </td>
-<td><input id="name" maxlength="45" ng-model="user.name" type="text" /> </td>
+<td><input id="name" maxlength="45" ng-model="user.name" required type="text" /> </td>
 </tr>
 
 <tr>
 <td><label for="email">Email Address*:</label> </td>
-<td><input id="email" maxlength="45" ng-model="user.email" type="email" /></td>
+<td><input id="email" maxlength="45" ng-model="user.email" required type="email" /></td>
 </tr>
 
 <tr>
 <td><label for="username">User Name*:</label> </td>
-<td><input id="username" maxlength="45" ng-model="user.username" type="text" /> </td>
+<td><input id="username" maxlength="45" ng-model="user.username" required type="text" /> </td>
 </tr>
 
 
@@ -22,20 +22,20 @@
 	<tr>
 		<td><label for="password" >Password*:</label></td>
 		<td>
-			<input type="password" id="password" maxlength="45" required name='password' ng-model='password1' />
+			<input type="password" id="password1" maxlength="45" required ng-model='password1' />
 		</td>
 	</tr>
 	<tr>
 		<td><label for="password">Confirm Password*:</label></td>
 		<td>
-			<input type="password" ng-model="password2" required password-match="password1" />
+			<input type="password" ng-model="password2" required ng-blur="passwordmatch()" />
 		</td>
 	</tr>
 </div>
 
-{{myForm.password-match}}
+
 <tr>
-<td align="right"><button ng-disabled='myForm.password-match'>Register</button></td>
+<td align="right"><button ng-model="register" id="register" ng-disabled="myForm.$invalid">Register</button></td>
 </tr>
 <tr>
 <td align="right"><input ng-model="clear" type="button" value="clear" /></td>
