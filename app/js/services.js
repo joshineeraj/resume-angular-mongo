@@ -7,10 +7,22 @@
 // In this case it is a simple value service.
 angular.module('myApp.services', []).
   value('version', '0.1')
-  .factory("usersService", function($http, Restangular){
+  .factory("usersService", function($http, Restangular, $q, $timeout){
+    // var _getUsers = function(){
+    // 	var userData = Restangular.all('users').getList();
+    // 	return userData;
+    // }
+
     var _getUsers = function(){
-    	var userData = Restangular.all('users').getList();
-    	return userData;
+        var deferred = $q.defer();
+        Restangular.all('users').getList().then(function (data) {
+                    var user_data = data;
+                    $timeout(function(){
+                        deferred.resolve(user_data);    
+                    }, 1000);
+                    
+                });
+                return deferred.promise;
     }
     
     var _addNewUser = function(newUser){
@@ -18,21 +30,38 @@ angular.module('myApp.services', []).
     	return user;
     	
     }
+	
     var _fetchUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
     	var fetchUser = Restangular.copy(originalUser);
     	return fetchUser;
     }
+	
     var _removeUser = function(user){
     	var originalUser =  Restangular.one('users', user.id).get();
     	return originalUser;
     }
 
+    var _getResumeDetails = function(newUser){
+        var originalUser = Restangular.all('users').post(newUser);
+        return originalUser;
+    }
+	var _chkLogin = function(user){
+    	var userInfo = {email : user.user_email, password : user.user_pass}
+    	var user = Restangular.all('user_login').post(userInfo);
+    	return user;
+    }
+	
+	var _loggedIn = false;
+	
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
         fetchUser: _fetchUser,
-        removeUser:_removeUser
+        removeUser:_removeUser,
+        getResumeDetails:_getResumeDetails,
+		chkLogin:_chkLogin,
+        loggedIn:_loggedIn
     };
 });
 
