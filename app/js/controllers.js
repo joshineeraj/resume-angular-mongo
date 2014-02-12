@@ -3,24 +3,34 @@
 /* Controllers */
 
 angular.module('myApp.controllers', ['ngUpload'])
-	.controller("UsersCtrl", function ($scope, $location, usersService){
+	.controller("UsersCtrl", function ($scope,$rootScope, $location, usersService){
 		//Executes when the controller is created
 		$scope.getUsers = function(){
 			usersService.getUsers().then(
 				function (data) {
-					$scope.users = data;
+					if ($rootScope.is_logged == true)
+						{
+							$scope.users = data;
+						}
+					else{
+						alert("Kindly Login");
+						$location.path('/login');
+					}
+						
 				}
 			);
 		}
-
 		$scope.getUsers();
+
+	})
+.controller("UsersRegistrCtrl", function ($scope,$rootScope, $location, usersService){
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
-				$scope.getUsers();
-				$location.path('/users');
+				alert("Registered Successfully, Kindly Login");
+				$location.path('/login');
 			});
 		}
-		$scope.passwordmatch = function(){
+				$scope.passwordmatch = function(){
 			var check = $scope.password1 == $scope.password2;
 			if(check){
 				console.log("i am true");
@@ -50,7 +60,6 @@ angular.module('myApp.controllers', ['ngUpload'])
 				$location.path('/users');
 			});
 		}
-		//$scope.getUsers();
 	}])
 	  
 	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','genders', function($scope, $location, $routeParams, usersService, genders
@@ -99,18 +108,26 @@ angular.module('myApp.controllers', ['ngUpload'])
           // Look for way to clear the input[type=file] element
         }
       })
-.controller('LoginCtrl', function($scope, $location, usersService){
+  
+	  
+.controller('LoginCtrl', function($scope, $rootScope,$location, usersService){
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
-			if (user != ""){
+			if ($scope.user.user_email = user[0].email){
 				alert("Welcome");
-				usersService.loggedIn = true;
+				$rootScope.is_logged = true;
 				$location.path('/users');
 			}else{
 				alert("Email or Password is incorrect.");
 				$location.path('/login');
 			}
 		});
+	}
+})
+
+.controller('LogoutCtrl', function($scope, $rootScope,$location){
+	$scope.logOut = function(){
+		$rootScope.is_logged = false;
 	}
 });
 
