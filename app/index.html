@@ -36,9 +36,10 @@
           	
             <li><a href="#/users" ng-show="is_logged">User list</a></li>
     		<li><a href="#/login" ng-hide="is_logged">Login</a></li>
+    		<li><a href="#/logout" ng-show="is_logged">Logout</a></li>
           </ul>
           <form class="navbar-form navbar-right">
-            <input type="text" class="search" placeholder="Search..." ng-model="search" >
+            <input type="text" class="search" placeholder="Search..." ng-model="search" ng-show="is_logged">
           </form>
           </div>
       </div>
