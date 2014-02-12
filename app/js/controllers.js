@@ -62,16 +62,14 @@ angular.module('myApp.controllers', ['ngUpload'])
 		}
 	}])
 	  
-	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','genders', function($scope, $location, $routeParams, usersService, genders
+	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','newUsers', function($scope, $location, $routeParams, usersService, newUsers
 ){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
-		 $scope.genders = genders.gender;
 		var user = {id: userId};
-		//using fetchUser because it fetches the data from Server
 		usersService.fetchUser(user).then(function(user) {
 			var original = user;
-			$scope.user = original;
+			$scope.users = newUsers.newUser(original);
 		});
 	}])
 	  

@@ -7,16 +7,17 @@ factory('genders', function(){
 				  {value:'Female', text:'Female'}];	
 	return{gender: _gender};
 })
-
-function newUsers(){
-	var name = {};
-	var email = {};
-	var qualification = {};
-	var mobile = {};
-	var skills = {};
-	var location = {};
-	var year_passing = {};
-	var gender = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
-	var current_employer = {};
-
-}
+.factory('newUsers', function(){
+	var _newUser = function(users){
+		var name = users.name || '';
+		var email = users.email || '';
+		var qualification = user.qualification || '';
+		var mobile = users.mobile || '';
+		var skills = users.skills || '';
+		var location = users.location || '';
+		var year_passing = users.year_passing || '';;
+		var gender = users.gender || '';
+		var current_employer = users.current_employer || '';	
+	}
+	return{ newUser:_newUser};
+});
