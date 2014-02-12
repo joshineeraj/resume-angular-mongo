@@ -8,10 +8,6 @@
 angular.module('myApp.services', []).
   value('version', '0.1')
   .factory("usersService", function($http, Restangular, $q, $timeout){
-    // var _getUsers = function(){
-    // 	var userData = Restangular.all('users').getList();
-    // 	return userData;
-    // }
 
     var _getUsers = function(){
         var deferred = $q.defer();

@@ -18,7 +18,11 @@ directive('passwordMatch', [function() {
                 //get the value of the other password  
                 var e2 = scope.$eval(attrs.passwordMatch);
                 console.log(e1==e2);
-                return e1 == e2;
+                if(e1 == e2){
+                    control.$setValidity("The two passwords must match.");
+                }else{
+                    control.$setValidity("");
+                }
                 
             };
             scope.$watch(checker, function () {

@@ -32,11 +32,12 @@ angular.module('myApp.controllers', ['ngUpload'])
 		}
 	})
   
-	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
+	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', 'genders', function($scope, $location, $routeParams, usersService, genders
 ){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
-		$scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
+		// $scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
+		$scope.genders = genders.gender;
 		console.log("In edit controller");
 		var user = {id: userId};
 		usersService.fetchUser(user).then(function(user) {
@@ -52,20 +53,17 @@ angular.module('myApp.controllers', ['ngUpload'])
 		//$scope.getUsers();
 	}])
 	  
-	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
+	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','genders', function($scope, $location, $routeParams, usersService, genders
 ){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
-		$scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
-		console.log("In view controller");
+		 $scope.genders = genders.gender;
 		var user = {id: userId};
-		//using editUser because it fetches the data from Server
-
+		//using fetchUser because it fetches the data from Server
 		usersService.fetchUser(user).then(function(user) {
 			var original = user;
 			$scope.user = original;
 		});
-		//$scope.getUsers();
 	}])
 	  
   .controller("UserDeleteCtrl", ['$scope','$location', '$routeParams','usersService', function($scope, $location, $routeParams, usersService
@@ -80,8 +78,7 @@ angular.module('myApp.controllers', ['ngUpload'])
 			  $location.path('/users');
 		  })
       });
-	  //$scope.getUsers();
-	  }])
+}])
 .controller('uploadResume', function ($scope, usersService) {
       $scope.startUploading = function() {
         console.log('uploading....')
@@ -102,15 +99,13 @@ angular.module('myApp.controllers', ['ngUpload'])
           // Look for way to clear the input[type=file] element
         }
       })
-	  
-	  
-	.controller('LoginCtrl', function($scope, $location, usersService){
+.controller('LoginCtrl', function($scope, $location, usersService){
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
 			if (user != ""){
 				alert("Welcome");
 				usersService.loggedIn = true;
-				$location.path('/view1');
+				$location.path('/users');
 			}else{
 				alert("Email or Password is incorrect.");
 				$location.path('/login');
