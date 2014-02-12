@@ -18,7 +18,7 @@ config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvi
   $routeProvider.when('/user/delete/:userId/', {templateUrl: 'partials/users.html', controller: 'UserDeleteCtrl'});
   $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: 'LoginCtrl'});
   $routeProvider.when('/logout', {templateUrl: 'partials/login.html', controller: 'LogoutCtrl'});
-  $routeProvider.otherwise({redirectTo: '/users'});
+  $routeProvider.otherwise({redirectTo: '/login'});
 
 }])
 .config(function(RestangularProvider) {

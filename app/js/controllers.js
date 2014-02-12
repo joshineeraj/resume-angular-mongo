@@ -17,7 +17,8 @@ angular.module('myApp.controllers', ['ngUpload'])
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
 				$scope.getUsers();
-				$location.path('/users');
+				alert("Registered Successfully, Kindly Login");
+				$location.path('/login');
 			});
 		}
 		$scope.passwordmatch = function(){
@@ -104,13 +105,13 @@ angular.module('myApp.controllers', ['ngUpload'])
       })
 	  
 	  
-	.controller('LoginCtrl', function($scope, $location, usersService){
+.controller('LoginCtrl', function($scope, $rootScope,$location, usersService){
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
-			if (user != ""){
+			if ($scope.user.user_email = user[0].email){
 				alert("Welcome");
-				usersService.loggedIn = true;
-				$location.path('/view1');
+				$rootScope.is_logged = true;
+				$location.path('/users');
 			}else{
 				alert("Email or Password is incorrect.");
 				$location.path('/login');

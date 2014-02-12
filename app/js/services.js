@@ -12,6 +12,7 @@ angular.module('myApp.services', []).
     // 	var userData = Restangular.all('users').getList();
     // 	return userData;
     // }
+    var _logged_in = false;
 
     var _getUsers = function(){
         var deferred = $q.defer();
@@ -52,8 +53,7 @@ angular.module('myApp.services', []).
     	return user;
     }
 	
-	var _loggedIn = false;
-	
+
     return{
         getUsers: _getUsers,
         addNewUser: _addNewUser,
@@ -61,7 +61,7 @@ angular.module('myApp.services', []).
         removeUser:_removeUser,
         getResumeDetails:_getResumeDetails,
 		chkLogin:_chkLogin,
-        loggedIn:_loggedIn
+		logged_in:_logged_in
     };
 });
 
