@@ -69,7 +69,7 @@ angular.module('myApp.controllers', ['ngUpload'])
 		var user = {id: userId};
 		usersService.fetchUser(user).then(function(user) {
 			var original = user;
-			$scope.users = newUsers.newUser(original);
+			$scope.users = original;
 		});
 	}])
 	  
@@ -111,7 +111,7 @@ angular.module('myApp.controllers', ['ngUpload'])
 .controller('LoginCtrl', function($scope, $rootScope,$location, usersService){
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
-			if ($scope.user.user_email = user[0].email){
+			if (($scope.user.email) == (user[0].email)){
 				alert("Welcome");
 				$rootScope.is_logged = true;
 				$location.path('/users');

@@ -43,7 +43,7 @@ angular.module('myApp.services', []).
         return originalUser;
     }
 	var _chkLogin = function(user){
-    	var userInfo = {email : user.user_email, password : user.user_pass}
+    	var userInfo = {email : user.email, password : user.password}
     	var user = Restangular.all('user_login').post(userInfo);
     	return user;
     }
