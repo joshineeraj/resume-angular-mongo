@@ -19,11 +19,10 @@ directive('passwordMatch', [function() {
                 var e2 = scope.$eval(attrs.passwordMatch);
                 console.log(e1==e2);
                 if(e1 == e2){
-                    control.$setValidity("The two passwords must match.", true);
+                    control.$setValidity("The two passwords matched", true);
                 }else{
                     control.$setValidity("The two passwords must match.", false);
                 }
-                
             };
         }
     };

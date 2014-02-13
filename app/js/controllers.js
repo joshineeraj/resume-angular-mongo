@@ -30,14 +30,14 @@ angular.module('myApp.controllers', ['ngUpload'])
 				$location.path('/login');
 			});
 		}
-				$scope.passwordmatch = function(){
-			var check = $scope.password1 == $scope.password2;
+		$scope.passwordmatch = function(){
+			var check = $scope.user.password == $scope.user.password2;
 			if(check){
-				console.log("i am true");
-				document.getElementByID("register").disabled = true;
+				console.log("Password matches");
+				document.getElementByID("register").disabled = false;
 			}else{
 				console.log("password not matches");
-				document.getElementByID("register").disabled = false;
+				document.getElementByID("register").disabled = true;
 			}
 		}
 	})
@@ -69,7 +69,7 @@ angular.module('myApp.controllers', ['ngUpload'])
 		var user = {id: userId};
 		usersService.fetchUser(user).then(function(user) {
 			var original = user;
-			$scope.users = original;
+			$scope.user = original;
 		});
 	}])
 	  
