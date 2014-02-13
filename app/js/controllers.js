@@ -33,10 +33,10 @@ angular.module('myApp.controllers', ['ngUpload'])
 			var check = $scope.user.password == $scope.user.password2;
 			if(check){
 				console.log("Password matches");
-				document.getElementByID("register").disabled = false;
+				document.getElementById("register").disabled = false;
 			}else{
 				console.log("password not matches");
-				document.getElementByID("register").disabled = true;
+				document.getElementById("register").disabled = true;
 			}
 		}
 	})
