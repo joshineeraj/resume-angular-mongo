@@ -13,10 +13,9 @@ angular.module('myApp.services', []).
         var deferred = $q.defer();
         Restangular.all('users').getList().then(function (data) {
                     var user_data = data;
-                    $timeout(function(){
-                        deferred.resolve(user_data);    
-                    }, 1000);
-                    
+                    $timeout(function() {
+                        deferred.resolve(user_data);
+                        }, 1000);
                 });
                 return deferred.promise;
     }
@@ -24,7 +23,6 @@ angular.module('myApp.services', []).
     var _addNewUser = function(newUser){
     	var user = Restangular.all('users').post(newUser);
     	return user;
-    	
     }
 	
     var _fetchUser = function(user){

@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', ['ngUpload'])
-	.controller("UsersCtrl", function ($scope,$rootScope, $location, usersService){
+angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', 'ngAnimate'])
+	.controller("UsersCtrl", function ($scope,$rootScope, $location, usersService, cfpLoadingBar){
 		//Executes when the controller is created
 		$scope.getUsers = function(){
 			usersService.getUsers().then(
@@ -20,13 +20,14 @@ angular.module('myApp.controllers', ['ngUpload'])
 			);
 		}
 		$scope.getUsers();
-
+		cfpLoadingBar.complete();
 	})
-.controller("UsersRegistrCtrl", function ($scope,$rootScope, $location, usersService){
+.controller("UsersRegistrCtrl", function ($scope,$rootScope, $location, $timeout, usersService, cfpLoadingBar){
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
-				alert("Registered Successfully, Kindly Login");
+				cfpLoadingBar.start();
 				$location.path('/login');
+				cfpLoadingBar.complete();
 			});
 		}
 		$scope.passwordmatch = function(){
@@ -39,10 +40,17 @@ angular.module('myApp.controllers', ['ngUpload'])
 				document.getElementById("register").disabled = true;
 			}
 		}
+
+    	// fake the initial load so first time users can see it right away:
+	    $scope.start();
+	    $timeout(function() {
+		    $scope.complete();
+		    }, 1000);
 	})
+
   
 	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', 'genders', function($scope, $location, $routeParams, usersService, genders
-){
+	){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
 		// $scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
@@ -107,12 +115,13 @@ angular.module('myApp.controllers', ['ngUpload'])
       })
   
 	  
-.controller('LoginCtrl', function($scope, $rootScope,$location, usersService){
+.controller('LoginCtrl', function($scope, $rootScope,$location, usersService, cfpLoadingBar){
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
-			if (($scope.user.email) == (user[0].email)){
+			if ( (($scope.user.email) == (user[0].email)) && (($scope.user.password) == (user[0].password)) ){
 				alert("Welcome");
 				$rootScope.is_logged = true;
+				cfpLoadingBar.start();
 				$location.path('/users');
 			}else{
 				alert("Email or Password is incorrect.");
