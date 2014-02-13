@@ -13,7 +13,6 @@ angular.module('myApp.controllers', ['ngUpload'])
 							$scope.users = data;
 						}
 					else{
-						alert("Kindly Login");
 						$location.path('/login');
 					}
 						
@@ -124,8 +123,7 @@ angular.module('myApp.controllers', ['ngUpload'])
 })
 
 .controller('LogoutCtrl', function($scope, $rootScope,$location){
-	$scope.logOut = function(){
-		$rootScope.is_logged = false;
-	}
+	alert("hello");
+	$rootScope.is_logged = false;
 });
 
