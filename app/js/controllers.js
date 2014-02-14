@@ -40,11 +40,23 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 				document.getElementById("register").disabled = true;
 			}
 		}
-
+		
+		$scope.emailmatch = function(email){
+			usersService.chkemailid(email).then(function(user) {
+				if(user[0].email){
+					alert("Email is already exist! Please try with another email");
+					document.getElementById("register").disabled = true;
+				}else{
+					alert("email-id is available");
+					document.getElementById("register").disabled = false;
+				}
+			});
+		}
+		
     	// fake the initial load so first time users can see it right away:
-	    $scope.start();
+	    cfpLoadingBar.start();
 	    $timeout(function() {
-		    $scope.complete();
+		    cfpLoadingBar.complete();
 		    }, 1000);
 	})
 
@@ -248,3 +260,4 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 	$rootScope.is_logged = false;
 });
 
+ 

@@ -45,6 +45,13 @@ angular.module('myApp.services', []).
     	var user = Restangular.all('user_login').post(userInfo);
     	return user;
     }
+	var _chkemailid = function(user_email){
+    	var userInfo = {email : user_email}
+    	var user = Restangular.all('validate_email').post(userInfo);
+		user.email;
+    	return user;
+    }
+	
 	
 
     return{
@@ -53,7 +60,8 @@ angular.module('myApp.services', []).
         fetchUser: _fetchUser,
         removeUser:_removeUser,
         getResumeDetails:_getResumeDetails,
-		chkLogin:_chkLogin
+		chkLogin:_chkLogin,
+		chkemailid : _chkemailid
     };
 });
 
