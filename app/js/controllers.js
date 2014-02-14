@@ -148,3 +148,4 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 	$rootScope.is_logged = false;
 });
 
+ 
