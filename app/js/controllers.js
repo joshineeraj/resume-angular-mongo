@@ -128,16 +128,7 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
   
 	  
 .controller('LoginCtrl', function($scope, $rootScope, $location, usersService, cfpLoadingBar, $timeout, Facebook){
-    // Define user empty data :/
-    $scope.user = {};
-    
-    // Defining user logged status
-    $scope.logged = false;
-    
     // And some fancy flags to display messages upon user status change
-    $scope.byebye = false;
-    $scope.salutation = false;
-
 	
 	// Here, usually you should watch for when Facebook is ready and loaded
 	  $scope.$watch(function() {
@@ -217,17 +208,6 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
           $location.path('/users');
         }; 
     
-    /**
-     * Logout
-     */
-    $scope.logout = function() {
-      Facebook.logout(function() {
-        $scope.$apply(function() {
-          $scope.user   = {};
-          $scope.logged = false;  
-        });
-      });
-    }
     
     /**
      * Taking approach of Events :D
@@ -255,9 +235,17 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
     });
 })
 
-.controller('LogoutCtrl', function($scope, $rootScope,$location){
+.controller('LogoutCtrl', function($scope, $rootScope,$location, Facebook){
 	alert("hello");
-	$rootScope.is_logged = false;
+	$scope.logout = function() {
+      Facebook.logout(function() {
+        $scope.$apply(function() {
+          $scope.logged = false;
+          $rootScope.logged_in_user = {};
+        });
+      });
+    }
+	$scope.logout();
 });
 
  
