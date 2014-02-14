@@ -115,7 +115,25 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
       })
   
 	  
-.controller('LoginCtrl', function($scope, $rootScope,$location, usersService, cfpLoadingBar){
+.controller('LoginCtrl', function($scope, $rootScope, $location, usersService, cfpLoadingBar, $timeout, Facebook){
+    // Define user empty data :/
+    $scope.user = {};
+    
+    // Defining user logged status
+    $scope.logged = false;
+    
+    // And some fancy flags to display messages upon user status change
+    $scope.byebye = false;
+    $scope.salutation = false;
+
+	
+	// Here, usually you should watch for when Facebook is ready and loaded
+	  $scope.$watch(function() {
+	    return Facebook.isReady(); // This is for convenience, to notify if Facebook is loaded and ready to go.
+	  }, function(newVal) {
+	    $scope.facebookReady = true; // You might want to use this to disable/show/hide buttons and else
+	  });
+
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
 			if ( (($scope.user.email) == (user[0].email)) && (($scope.user.password) == (user[0].password)) ){
@@ -129,6 +147,100 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 			}
 		});
 	}
+	
+    /**
+     * IntentLogin
+     */
+    $scope.IntentLogin = function() {
+      Facebook.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+          $scope.logged = true;
+          $rootScope.is_logged = true;
+          $scope.me();
+        }
+        else
+          $scope.fblogin();
+      });
+    };
+    
+    /**
+     * Login
+     */
+     $scope.fblogin = function() {
+       Facebook.login(function(response) {
+        if (response.status == 'connected') {
+          $scope.logged = true;
+          $rootScope.is_logged = true;
+          $scope.me();
+        }
+      
+      });
+     };
+     
+     /**
+      * me 
+      */
+      $scope.me = function() {
+        Facebook.api('/me', function(response) {
+          /**
+           * Using $scope.$apply since this happens outside angular framework.
+           */
+          $scope.$apply(function() {
+            $rootScope.logged_in_user = response;
+            $scope.me_picture();
+          });
+          
+        })
+      };
+      $scope.me_picture = function() {
+          Facebook.api('/me/picture/?type=normal', function(pic_response) {
+            /**
+             * Using $scope.$apply since this happens outside angular framework.
+             */
+            $scope.$apply(function() {
+            	$rootScope.logged_in_user.pic = pic_response;
+            });
+            
+          });
+          $location.path('/users');
+        }; 
+    
+    /**
+     * Logout
+     */
+    $scope.logout = function() {
+      Facebook.logout(function() {
+        $scope.$apply(function() {
+          $scope.user   = {};
+          $scope.logged = false;  
+        });
+      });
+    }
+    
+    /**
+     * Taking approach of Events :D
+     */
+    $scope.$on('Facebook:statusChange', function(ev, data) {
+      console.log('Status: ', data);
+      if (data.status == 'connected') {
+        $scope.$apply(function() {
+          $scope.salutation = true;
+          $scope.byebye     = false;    
+        });
+      } else {
+        $scope.$apply(function() {
+          $scope.salutation = false;
+          $scope.byebye     = true;
+          
+          // Dismiss byebye message after two seconds
+          $timeout(function() {
+            $scope.byebye = false;
+          }, 2000)
+        });
+      }
+      
+      
+    });
 })
 
 .controller('LogoutCtrl', function($scope, $rootScope,$location){
