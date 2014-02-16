@@ -187,7 +187,8 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
       */
       $scope.me = function() {
     	  FbService.me().then(function(response){
-    		  $scope.$apply(function() {
+    		  console.log(response);
+    		  $timeout(function() {
                 $rootScope.logged_in_user = response;
                 $scope.my_pic();
               });
@@ -198,8 +199,8 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
     		  /**
                * Using $scope.$apply since this happens outside angular framework.
                */
-    		  $scope.$apply(function() {
-    			  $rootScope.logged_in_user.pic = pic_response;
+    		  $timeout(function() {
+    			  $rootScope.logged_in_user.pic = response;
               });
     	  });
           $location.path('/users');
@@ -231,11 +232,11 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
     });
 })
 
-.controller('LogoutCtrl', function($scope, $rootScope,$location, Facebook){
+.controller('LogoutCtrl', function($scope, $rootScope,$location, $timeout, Facebook){
 	alert("hello");
 	$scope.logout = function() {
       Facebook.logout(function() {
-        $scope.$apply(function() {
+    	  $timeout(function() {
         	$scope.logged = false;
             $rootScope.is_logged = false;
           $rootScope.logged_in_user = {};
