@@ -127,7 +127,7 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
       })
   
 	  
-.controller('LoginCtrl', function($scope, $rootScope, $location, usersService, cfpLoadingBar, $timeout, Facebook){
+.controller('LoginCtrl', function($scope, $rootScope, $location, usersService, cfpLoadingBar, $timeout, Facebook, FbService){
     // And some fancy flags to display messages upon user status change
 	
 	// Here, usually you should watch for when Facebook is ready and loaded
@@ -153,18 +153,22 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 	
     /**
      * IntentLogin
-     */
-    $scope.IntentLogin = function() {
+     **/
+    $scope.intentLogin = function() {
       Facebook.getLoginStatus(function(response) {
         if (response.status == 'connected') {
-          $scope.logged = true;
-          $rootScope.is_logged = true;
-          $scope.me();
+        	$scope.is_logged_in();
         }
         else
           $scope.fblogin();
       });
     };
+    
+    $scope.is_logged_in = function() {
+   	 	$scope.logged = true;
+        $rootScope.is_logged = true;
+        $scope.me();
+    }
     
     /**
      * Login
@@ -172,9 +176,7 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
      $scope.fblogin = function() {
        Facebook.login(function(response) {
         if (response.status == 'connected') {
-          $scope.logged = true;
-          $rootScope.is_logged = true;
-          $scope.me();
+        	$scope.is_logged_in();
         }
       
       });
@@ -184,31 +186,25 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
       * me 
       */
       $scope.me = function() {
-        Facebook.api('/me', function(response) {
-          /**
-           * Using $scope.$apply since this happens outside angular framework.
-           */
-          $scope.$apply(function() {
-            $rootScope.logged_in_user = response;
-            $scope.me_picture();
-          });
-          
-        })
+    	  FbService.me().then(function(response){
+    		  $scope.$apply(function() {
+                $rootScope.logged_in_user = response;
+                $scope.my_pic();
+              });
+    	  });
       };
-      $scope.me_picture = function() {
-          Facebook.api('/me/picture/?type=normal', function(pic_response) {
-            /**
-             * Using $scope.$apply since this happens outside angular framework.
-             */
-            $scope.$apply(function() {
-            	$rootScope.logged_in_user.pic = pic_response;
-            });
-            
-          });
+      $scope.my_pic = function() {
+    	  FbService.my_pic().then(function(response){
+    		  /**
+               * Using $scope.$apply since this happens outside angular framework.
+               */
+    		  $scope.$apply(function() {
+    			  $rootScope.logged_in_user.pic = pic_response;
+              });
+    	  });
           $location.path('/users');
-        }; 
-    
-    
+        };
+        
     /**
      * Taking approach of Events :D
      */
@@ -231,7 +227,7 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
         });
       }
       
-      
+          
     });
 })
 
@@ -240,7 +236,8 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 	$scope.logout = function() {
       Facebook.logout(function() {
         $scope.$apply(function() {
-          $scope.logged = false;
+        	$scope.logged = false;
+            $rootScope.is_logged = false;
           $rootScope.logged_in_user = {};
         });
       });
