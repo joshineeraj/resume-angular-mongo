@@ -46,12 +46,12 @@
       </div>
     </div>
 	
-<div myFb> </div>
 <social fbid="joshi.neeraj" twid="joshi_neeraj" gid="mail.neerajjoshi"></social>
 	
     <div class="container">
-        <div>Logged in User: {{logged_in_user.name}}
+        <div ng-show="is_logged">Logged in User: {{logged_in_user.name}}
             <img src="{{logged_in_user.pic.data.url}}"/>
+            From: {{logged_in_user.location.name}}
         </div>
 		<section ng-view></section>
     </div>
