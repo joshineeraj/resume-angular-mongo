@@ -12,7 +12,7 @@ angular.module('myApp', [
   'facebook'
 ]).
 config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvider) {
-  $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersRegistrCtrl'});
+  $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersRegisterCtrl'});
   $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
   $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersCtrl'});
   $routeProvider.when('/user/edit/:userId/', {templateUrl: 'partials/editprofile.html', controller: 'UserEditCtrl'});

@@ -22,7 +22,7 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
 		$scope.getUsers();
 		cfpLoadingBar.complete();
 	})
-.controller("UsersRegistrCtrl", function ($scope,$rootScope, $location, $timeout, usersService, cfpLoadingBar){
+.controller("UsersRegisterCtrl", function ($scope,$rootScope, $location, $timeout, usersService, cfpLoadingBar){
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
 				cfpLoadingBar.start();
@@ -228,7 +228,6 @@ angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', '
         });
       }
       
-          
     });
 })
 
