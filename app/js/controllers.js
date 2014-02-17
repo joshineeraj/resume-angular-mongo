@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', ['ngUpload'])
-	.controller("UsersCtrl", function ($scope,$rootScope, $location, usersService){
+angular.module('myApp.controllers', ['ngUpload', 'chieffancypants.loadingBar', 'ngAnimate'])
+	.controller("UsersCtrl", function ($scope,$rootScope, $location, usersService, cfpLoadingBar){
 		//Executes when the controller is created
 		$scope.getUsers = function(){
 			usersService.getUsers().then(
@@ -13,7 +13,6 @@ angular.module('myApp.controllers', ['ngUpload'])
 							$scope.users = data;
 						}
 					else{
-						alert("Kindly Login");
 						$location.path('/login');
 					}
 						
@@ -21,29 +20,49 @@ angular.module('myApp.controllers', ['ngUpload'])
 			);
 		}
 		$scope.getUsers();
-
+		cfpLoadingBar.complete();
 	})
-.controller("UsersRegistrCtrl", function ($scope,$rootScope, $location, usersService){
+.controller("UsersRegisterCtrl", function ($scope,$rootScope, $location, $timeout, usersService, cfpLoadingBar){
 		$scope.addNewUser = function(user){
 			usersService.addNewUser(user).then(function(user) {
-				alert("Registered Successfully, Kindly Login");
+				cfpLoadingBar.start();
 				$location.path('/login');
+				cfpLoadingBar.complete();
 			});
 		}
-				$scope.passwordmatch = function(){
-			var check = $scope.password1 == $scope.password2;
+		$scope.passwordmatch = function(){
+			var check = $scope.user.password == $scope.user.password2;
 			if(check){
-				console.log("i am true");
-				document.getElementByID("register").disabled = true;
+				console.log("Password matches");
+				document.getElementById("register").disabled = false;
 			}else{
 				console.log("password not matches");
-				document.getElementByID("register").disabled = false;
+				document.getElementById("register").disabled = true;
 			}
 		}
+		
+		$scope.emailmatch = function(email){
+			usersService.chkemailid(email).then(function(user) {
+				if(user[0].email){
+					alert("Email is already exist! Please try with another email");
+					document.getElementById("register").disabled = true;
+				}else{
+					alert("email-id is available");
+					document.getElementById("register").disabled = false;
+				}
+			});
+		}
+		
+    	// fake the initial load so first time users can see it right away:
+	    cfpLoadingBar.start();
+	    $timeout(function() {
+		    cfpLoadingBar.complete();
+		    }, 1000);
 	})
+
   
 	.controller("UserEditCtrl", ['$scope','$location', '$routeParams','usersService', 'genders', function($scope, $location, $routeParams, usersService, genders
-){
+	){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
 		// $scope.genders = [{value:'Male', text:'Male'}, {value:'Female', text:'Female'}];
@@ -62,13 +81,11 @@ angular.module('myApp.controllers', ['ngUpload'])
 		}
 	}])
 	  
-	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','genders', function($scope, $location, $routeParams, usersService, genders
+	.controller("UserViewCtrl", ['$scope','$location', '$routeParams','usersService','newUsers', function($scope, $location, $routeParams, usersService, newUsers
 ){
 		//Executes when the controller is created
 		var userId = $routeParams.userId;
-		 $scope.genders = genders.gender;
 		var user = {id: userId};
-		//using fetchUser because it fetches the data from Server
 		usersService.fetchUser(user).then(function(user) {
 			var original = user;
 			$scope.user = original;
@@ -110,12 +127,22 @@ angular.module('myApp.controllers', ['ngUpload'])
       })
   
 	  
-.controller('LoginCtrl', function($scope, $rootScope,$location, usersService){
+.controller('LoginCtrl', function($scope, $rootScope, $location, usersService, cfpLoadingBar, $timeout, Facebook, FbService){
+    // And some fancy flags to display messages upon user status change
+	
+	// Here, usually you should watch for when Facebook is ready and loaded
+	  $scope.$watch(function() {
+	    return Facebook.isReady(); // This is for convenience, to notify if Facebook is loaded and ready to go.
+	  }, function(newVal) {
+	    $scope.facebookReady = true; // You might want to use this to disable/show/hide buttons and else
+	  });
+
 	$scope.logIn = function(user){
 		usersService.chkLogin(user).then(function(user) {
-			if ($scope.user.user_email = user[0].email){
+			if ( (($scope.user.email) == (user[0].email)) && (($scope.user.password) == (user[0].password)) ){
 				alert("Welcome");
 				$rootScope.is_logged = true;
+				cfpLoadingBar.start();
 				$location.path('/users');
 			}else{
 				alert("Email or Password is incorrect.");
@@ -123,11 +150,99 @@ angular.module('myApp.controllers', ['ngUpload'])
 			}
 		});
 	}
+	
+    /**
+     * IntentLogin
+     **/
+    $scope.intentLogin = function() {
+      Facebook.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+        	$scope.is_logged_in();
+        }
+        else
+          $scope.fblogin();
+      });
+    };
+    
+    $scope.is_logged_in = function() {
+   	 	$scope.logged = true;
+        $rootScope.is_logged = true;
+        $scope.me();
+    }
+    
+    /**
+     * Login
+     */
+     $scope.fblogin = function() {
+       Facebook.login(function(response) {
+        if (response.status == 'connected') {
+        	$scope.is_logged_in();
+        }
+      
+      });
+     };
+     
+     /**
+      * me 
+      */
+      $scope.me = function() {
+    	  FbService.me().then(function(response){
+    		  console.log(response);
+    		  $timeout(function() {
+                $rootScope.logged_in_user = response;
+                $scope.my_pic();
+              });
+    	  });
+      };
+      $scope.my_pic = function() {
+    	  FbService.my_pic().then(function(response){
+    		  /**
+               * Using $scope.$apply since this happens outside angular framework.
+               */
+    		  $timeout(function() {
+    			  $rootScope.logged_in_user.pic = response;
+              });
+    	  });
+          $location.path('/users');
+        };
+        
+    /**
+     * Taking approach of Events :D
+     */
+    $scope.$on('Facebook:statusChange', function(ev, data) {
+      console.log('Status: ', data);
+      if (data.status == 'connected') {
+        $scope.$apply(function() {
+          $scope.salutation = true;
+          $scope.byebye     = false;    
+        });
+      } else {
+        $scope.$apply(function() {
+          $scope.salutation = false;
+          $scope.byebye     = true;
+          
+          // Dismiss byebye message after two seconds
+          $timeout(function() {
+            $scope.byebye = false;
+          }, 2000)
+        });
+      }
+      
+    });
 })
 
-.controller('LogoutCtrl', function($scope, $rootScope,$location){
-	$scope.logOut = function(){
-		$rootScope.is_logged = false;
-	}
+.controller('LogoutCtrl', function($scope, $rootScope,$location, $timeout, Facebook){
+	alert("hello");
+	$scope.logout = function() {
+      Facebook.logout(function() {
+    	  $timeout(function() {
+        	$scope.logged = false;
+            $rootScope.is_logged = false;
+          $rootScope.logged_in_user = {};
+        });
+      });
+    }
+	$scope.logout();
 });
 
+ 

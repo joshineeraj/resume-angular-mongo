@@ -8,10 +8,11 @@ angular.module('myApp', [
   'myApp.services',
   'myApp.directives',
   'myApp.controllers',
-  'restangular'
+  'restangular',
+  'facebook'
 ]).
 config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvider) {
-  $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersRegistrCtrl'});
+  $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'UsersRegisterCtrl'});
   $routeProvider.when('/upload_resume', {templateUrl: 'partials/upload_resume.html', controller: 'uploadResume'});
   $routeProvider.when('/users', {templateUrl: 'partials/users.html', controller: 'UsersCtrl'});
   $routeProvider.when('/user/edit/:userId/', {templateUrl: 'partials/editprofile.html', controller: 'UserEditCtrl'});
@@ -22,6 +23,14 @@ config(['$routeProvider', function($routeProvider, $locationProvider, $httpProvi
   $routeProvider.otherwise({redirectTo: '/login'});
 
 }])
+//app_secret = '830cd07bf525cecf18b0572fc4af973c'
+
+.config(['FacebookProvider', function(FacebookProvider) {
+     // Here you could set your appId throug the setAppId method and then initialize
+     // or use the shortcut in the initialize method directly.
+     FacebookProvider.init('1421859234725543');
+}])
+
 .config(function(RestangularProvider) {
   RestangularProvider.setBaseUrl('http://localhost:3000/');
  // RestangularProvider.setDefaultRequestParams({ apiKey: '83nxC8BfkaXHn-B1iM3Dc-t-MpG_Zi85' });

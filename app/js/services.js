@@ -13,10 +13,9 @@ angular.module('myApp.services', []).
         var deferred = $q.defer();
         Restangular.all('users').getList().then(function (data) {
                     var user_data = data;
-                    $timeout(function(){
-                        deferred.resolve(user_data);    
-                    }, 1000);
-                    
+                    $timeout(function() {
+                        deferred.resolve(user_data);
+                        }, 1000);
                 });
                 return deferred.promise;
     }
@@ -24,7 +23,6 @@ angular.module('myApp.services', []).
     var _addNewUser = function(newUser){
     	var user = Restangular.all('users').post(newUser);
     	return user;
-    	
     }
 	
     var _fetchUser = function(user){
@@ -43,10 +41,17 @@ angular.module('myApp.services', []).
         return originalUser;
     }
 	var _chkLogin = function(user){
-    	var userInfo = {email : user.user_email, password : user.user_pass}
+    	var userInfo = {email : user.email, password : user.password}
     	var user = Restangular.all('user_login').post(userInfo);
     	return user;
     }
+	var _chkemailid = function(user_email){
+    	var userInfo = {email : user_email}
+    	var user = Restangular.all('validate_email').post(userInfo);
+		user.email;
+    	return user;
+    }
+	
 	
 
     return{
@@ -56,7 +61,31 @@ angular.module('myApp.services', []).
         removeUser:_removeUser,
         getResumeDetails:_getResumeDetails,
 		chkLogin:_chkLogin,
+		chkemailid : _chkemailid
+    };
+})
+
+.factory("FbService", function(Facebook){
+
+    var _me = function() {
+        var logged_in_person = Facebook.api('/me', function(response) {
+            return response
+            });
+        return logged_in_person;
+        };
+
+    var _my_pic = function() {
+        var logged_in_person_pic = Facebook.api('/me/picture/?type=normal', function(response) {
+            return response
+            });
+        return logged_in_person_pic;
+        };
+
+    return{
+        me: _me,
+        my_pic: _my_pic
     };
 });
+
 
 

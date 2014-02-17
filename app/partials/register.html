@@ -11,7 +11,7 @@
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" ng-model="user.email" placeholder="Enter email" required>
+            <input type="email" class="form-control" id="exampleInputEmail1" ng-model="user.email" ng-blur='emailmatch(user.email)' placeholder="Enter email" required>
           </div>
            <div class="form-group"> 
             <label>User Name</label>
@@ -23,9 +23,10 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword2">Confirm Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword2" ng-model="user.password2" password-match="user.password2"placeholder="Password">
+            <input type="password" class="form-control" id="exampleInputPassword2" ng-model="user.password2" ng-blur='passwordmatch()' placeholder="Password">
           </div>
-          <button type="submit" class="btn btn-default" ng-click="addNewUser(user)" ng-disabled='myForm.$valid'>Submit</button>
+          <button type="submit" class="btn btn-default" id='register' ng-click="addNewUser(user)" ng-disabled='myForm.$invalid'>Submit</button>
+
           <button ng-model="clear" type="button" class="btn btn-default">Clear</button>
           <button ng-model="cancel" type="button" class="btn btn-default">Cancel</button>
         </form>
