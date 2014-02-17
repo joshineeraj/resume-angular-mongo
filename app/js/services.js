@@ -56,7 +56,6 @@ angular.module('myApp.services', []).
         removeUser:_removeUser,
         getResumeDetails:_getResumeDetails,
 		chkLogin:_chkLogin,
-		logged_in:_logged_in
     };
 });
 
